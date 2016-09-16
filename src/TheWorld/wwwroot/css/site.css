@@ -1,0 +1,58 @@
+﻿
+/** Bootstrap ovveriding **/
+.navbar {
+    margin-bottom: 0;
+}
+
+/** Custom styles **/
+
+.headshot {
+    max-width: 50px;
+    border: 1px solid #222;
+    padding: 3px;
+}
+
+
+#sidebar {
+    background: #2a2c36;
+    color: #eee;
+    position: fixed;
+    height: 100%;
+    width: 250px;
+    overflow: hidden;
+    left: 0;
+    margin: 0;
+    -webkit-transition: left ease .25s;
+    -moz-transition: left ease .25s;
+    -o-transition: left ease .25s;
+    transition: left ease .25s;
+}
+
+#sidebar.hide-sidebar {
+        left: -250px;
+        -webkit-transition: left ease .25s;
+        -moz-transition: left ease .25s;
+        -o-transition: left ease .25s;
+        transition: left ease .25s;
+    }
+
+#wrapper {
+    margin-left: 250px;
+    -webkit-transition: margin-left ease .25s;
+    -moz-transition: margin-left ease .25s;
+    -o-transition: margin-left ease .25s;
+    transition: margin-left ease .25s;
+}
+
+#wrapper.hide-sidebar {
+        margin-left: 0;
+        -webkit-transition: margin-left ease .25s;
+        -moz-transition: margin-left ease .25s;
+        -o-transition: margin-left ease .25s;
+        transition: margin-left ease .25s;
+    }
+
+#toggleMenu {
+    margin-top: 7px;
+    margin-right: 8px;
+}
