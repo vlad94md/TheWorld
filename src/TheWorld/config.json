@@ -1,5 +1,8 @@
 ﻿{
   "MailSettings": {
     "ToAddress": "webhost@mail.com"
+  },
+  "ConnectionStrings": {
+    "WorldContextConnection": "Data Source=(localdb)\\v11.0;Initial Catalog=TheWorldDb;Integrated Security=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
   }
 }

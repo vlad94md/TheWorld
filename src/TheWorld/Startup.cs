@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TheWorld.Models.Context;
 using TheWorld.Services;
 
 namespace TheWorld
@@ -22,6 +23,7 @@ namespace TheWorld
         {
             services.AddScoped<IMailService, MailService>();
             services.AddMvc();
+            services.AddDbContext<WorldContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
