@@ -19,7 +19,7 @@ namespace TheWorld.Models.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\v11.0;Initial Catalog=TheWorldDb;Integrated Security=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\v11.0;Database=TheWorldDb;Trusted_Connection=True;MultipleActiveResultSets=true;");
         }
     }
 }
