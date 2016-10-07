@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TheWorld.Models;
 using TheWorld.Models.Context;
 using TheWorld.Services;
 
@@ -24,6 +25,7 @@ namespace TheWorld
             services.AddScoped<IMailService, MailService>();
             services.AddDbContext<WorldContext>();
             services.AddTransient<WorldContextSeedData>();
+            services.AddScoped<IWorldRepository, WorldRepository>();
             services.AddMvc();
         }
 

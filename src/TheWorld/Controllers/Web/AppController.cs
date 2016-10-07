@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using TheWorld.Models;
 using TheWorld.Models.Context;
 using TheWorld.Services;
 using TheWorld.ViewModels;
@@ -14,18 +15,18 @@ namespace TheWorld.Controllers.Web
     public class AppController : Controller
     {
         private readonly IMailService _mailService;
-        private WorldContext _context;
+        private IWorldRepository _repos;
 
 
-        public AppController(IMailService mailService, WorldContext context)
+        public AppController(IMailService mailService, WorldContext context, IWorldRepository repos)
         {
             _mailService = mailService;
-            _context = context;
+            _repos = repos;
         }
 
         public IActionResult Index()
         {
-            var data = _context.Trips.ToList();
+            var data = _repos.GetAlTrips();
             return View(data);
         }
 
