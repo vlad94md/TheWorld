@@ -26,6 +26,7 @@ namespace TheWorld
             services.AddDbContext<WorldContext>();
             services.AddTransient<WorldContextSeedData>();
             services.AddScoped<IWorldRepository, WorldRepository>();
+            services.AddLogging();
             services.AddMvc();
         }
 
@@ -37,6 +38,11 @@ namespace TheWorld
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                loggerFactory.AddDebug(LogLevel.Information);
+            }
+            else
+            {
+                loggerFactory.AddDebug(LogLevel.Error);
             }
 
             app.UseStaticFiles();

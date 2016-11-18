@@ -9,6 +9,7 @@ using TheWorld.Models;
 using TheWorld.Models.Context;
 using TheWorld.Services;
 using TheWorld.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace TheWorld.Controllers.Web
 {
@@ -16,18 +17,27 @@ namespace TheWorld.Controllers.Web
     {
         private readonly IMailService _mailService;
         private IWorldRepository _repos;
+        private ILogger<AppController> _logger;
 
-
-        public AppController(IMailService mailService, WorldContext context, IWorldRepository repos)
+        public AppController(IMailService mailService, IWorldRepository repos, ILogger<AppController> logger)
         {
             _mailService = mailService;
             _repos = repos;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
-            var data = _repos.GetAlTrips();
-            return View(data);
+            try
+            {
+                var data = _repos.GetAlTrips();
+                return View(data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get all trips at Index page: {ex.Message}");
+                return Redirect("/error");
+            }
         }
 
         public IActionResult Contact()
