@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using TheWorld.Models;
+using TheWorld.ViewModels;
+
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,23 +16,59 @@ namespace TheWorld.Controllers.Api
     [Route("api/[controller]")]
     public class TripsController : Controller
     {
+        private IWorldRepository _repository;
+        private ILogger<TripsController> _logger;
+
+        public TripsController(IWorldRepository repository, ILogger<TripsController> logger)
+        {
+            _repository = repository;
+            _logger = logger;
+
+        }
         [HttpGet()]
         public IActionResult Get()
         {
-            return Ok(new Trip() { Name = "My Trip", Date = DateTime.Now });
+            try
+            {
+                var results = _repository.GetAlTrips();
+
+                return Ok(Mapper.Map<IEnumerable<TripViewModel>>(results));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get All Trips:{ e.Message}");
+                return BadRequest("Error occured");
+            }
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var trip = _repository.GetTrip(id);
+
+            if (trip == null)
+            {
+                return NotFound("Trip was not found in database");
+            }
+
+            return Ok(trip);
         }
 
-  
+
         [HttpPost()]
-        public IActionResult Post([FromBody]Trip trip)
+        public async Task<IActionResult> Post([FromBody]TripViewModel trip)
         {
-            return Ok(true);
+            if (ModelState.IsValid)
+            {
+                var newTrip = Mapper.Map<Trip>(trip);
+                _repository.AddTrip(newTrip);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created($"api/trips/{trip.Name}", Mapper.Map<TripViewModel>(newTrip));
+                }
+            }
+            return BadRequest("Failed to save a trip");
         }
 
     }

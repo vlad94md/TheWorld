@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using TheWorld.Models;
 using TheWorld.Models.Context;
 using TheWorld.Services;
+using TheWorld.ViewModels;
 
 namespace TheWorld
 {
@@ -34,6 +35,11 @@ namespace TheWorld
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, WorldContextSeedData seeder)
         {
             loggerFactory.AddConsole();
+            AutoMapper.Mapper.Initialize(config =>
+            {
+                config.CreateMap<TripViewModel, Trip>().ReverseMap(); // Reverse gives both derictions
+                config.CreateMap<StopViewModel, Stop>().ReverseMap(); // Reverse gives both derictions
+            });
 
             if (env.IsDevelopment())
             {
