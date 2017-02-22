@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TheWorld.Models;
+using TheWorld.Services;
 using TheWorld.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,12 +17,13 @@ namespace TheWorld.Controllers.Api
     {
         private IWorldRepository _repository;
         private ILogger<StopsController> _logger;
+        private GeoCoordsService _coordsService;
 
-        public StopsController(IWorldRepository repository, ILogger<StopsController> logger)
+        public StopsController(IWorldRepository repository, ILogger<StopsController> logger, GeoCoordsService coordsService)
         {
             _repository = repository;
             _logger = logger;
-
+            _coordsService = coordsService;
         }
         
 
@@ -50,6 +52,17 @@ namespace TheWorld.Controllers.Api
                 if (ModelState.IsValid)
                 {
                     var newStop = AutoMapper.Mapper.Map<Stop>(stopModel);
+
+                    // Lookup for Geocords
+                    var result = await _coordsService.GetCoordsAsync(newStop.Name);
+                    if (!result.Success)
+                    {
+                        _logger.LogError(result.Message);
+                    }
+
+                    newStop.Latitude = result.Latitude;
+                    newStop.Longitude = result.Longitude;
+
                     _repository.AddStop(tripName, newStop);
 
                     if (await _repository.SaveChangesAsync())

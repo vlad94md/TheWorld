@@ -18,12 +18,14 @@ namespace TheWorld.Controllers.Web
         private readonly IMailService _mailService;
         private IWorldRepository _repos;
         private ILogger<AppController> _logger;
+        private IConfigurationRoot _config;
 
-        public AppController(IMailService mailService, IWorldRepository repos, ILogger<AppController> logger)
+        public AppController(IMailService mailService, IWorldRepository repos, ILogger<AppController> logger, IConfigurationRoot config)
         {
             _mailService = mailService;
             _repos = repos;
             _logger = logger;
+            _config = config;
         }
 
         public IActionResult Index()
@@ -48,8 +50,8 @@ namespace TheWorld.Controllers.Web
         [HttpPost]
         public IActionResult Contact(ContactViewModel viewModel)
         {
-
-            _mailService.SendEmail("testemail@mail.com", viewModel.Email, viewModel.Name, viewModel.Message);
+            var email = _config["MailSettings:ToAddress"];
+            _mailService.SendEmail(email, viewModel.Email, viewModel.Name, viewModel.Message);
 
             return View();
         }

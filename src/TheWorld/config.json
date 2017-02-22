@@ -4,5 +4,8 @@
   },
   "ConnectionStrings": {
     "WorldContextConnection": "Data Source=(localdb)\\v11.0;Initial Catalog=TheWorldDb;Integrated Security=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  },
+  "keys": {
+    "BingKey": "AuFfpMlouuyAN9C8miHT_F1u0CQXBIZPhRCKeWQ9f0mk4zCZJCtp-YnCChfs6vBn"
   }
 }

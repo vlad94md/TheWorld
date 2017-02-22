@@ -21,13 +21,27 @@ namespace TheWorld
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+
+        private IConfigurationRoot configRoot;
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("config.json");
+
+            configRoot = builder.Build();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IMailService, MailService>();
             services.AddDbContext<WorldContext>();
             services.AddTransient<WorldContextSeedData>();
             services.AddScoped<IWorldRepository, WorldRepository>();
+            services.AddTransient<GeoCoordsService>();
             services.AddLogging();
+            services.AddSingleton(configRoot);
             services.AddMvc();
         }
 
@@ -35,6 +49,7 @@ namespace TheWorld
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, WorldContextSeedData seeder)
         {
             loggerFactory.AddConsole();
+
             AutoMapper.Mapper.Initialize(config =>
             {
                 config.CreateMap<TripViewModel, Trip>().ReverseMap(); // Reverse gives both derictions
