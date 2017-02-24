@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace TheWorld.Models.Context
 {
-    public class WorldContext : DbContext
+    public class WorldContext : IdentityDbContext<WorldUser>
     {
-        public WorldContext(DbContextOptions options) : base (options)
+        private IConfigurationRoot config;
+
+        public WorldContext(DbContextOptions options, IConfigurationRoot config) : base (options)
         {
-            
+            this.config = config;
         }
 
         public DbSet<Trip> Trips { get; set; }
@@ -19,7 +23,7 @@ namespace TheWorld.Models.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=(localdb)\\v11.0;Database=TheWorldDb;Trusted_Connection=True;MultipleActiveResultSets=true;");
+            optionsBuilder.UseSqlServer(config["ConnectionStrings:WorldContextConnection"]);
         }
     }
 }

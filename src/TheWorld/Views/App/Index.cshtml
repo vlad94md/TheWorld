@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TheWorld.Models.Trip>
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model IEnumerable<TheWorld.Models.Trip>
 
 @{
     ViewBag.Title = "Home Page";
@@ -7,30 +8,9 @@
 
 
 <div class="row">
-    <div class="col-md-6">
-        <h3>The Heading</h3>
-        <p>Some text will be here very very soon!</p>
-
-        <form>
-            <div class="form-group">
-                <label>Date</label>
-                <input class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label>Location</label>
-                <input class="form-control"/>
-            </div>
-            <input type="submit" value="Add" class="btn btn-success"/>
-        </form>
-    </div>
-
-    <div class="col-md-6">
-        <h3>The Map</h3>
-
-        @foreach (var item in Model)
-        {
-            <li>@item.Name @item.Date</li>
-        }
-
+    <div class="col-md-12">
+        <h1>Welcome to the World</h1>
+        <p>This app will allow you to plan for world trips</p>
+        <a asp-controller="App" asp-action="trips" class="btn btn-lg btn-success">View My Trips</a>
     </div>
 </div>
