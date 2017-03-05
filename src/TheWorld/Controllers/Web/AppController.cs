@@ -39,7 +39,7 @@ namespace TheWorld.Controllers.Web
         {
             try
             {
-                var data = _repos.GetAlTrips();
+                var data = _repos.GetAllTrips();
                 return View(data);
             }
             catch (Exception ex)

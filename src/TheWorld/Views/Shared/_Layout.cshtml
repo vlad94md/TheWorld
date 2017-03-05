@@ -11,18 +11,29 @@
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="sidebar">
+<div id="sidebar">
+    @if (User.Identity.IsAuthenticated)
+    {
         <img src="~/img/user.png" class="headshot" />
-        <span>Adam Sandler</span>
-        <ul class="nav menu">
-            <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
-            <li><a asp-controller="App" asp-action="About">About</a></li>
-            <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
-        </ul>
-    </div>
+        <span>@User.Identity.Name</span>
+    }
+
+    <ul class="nav menu">
+        <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
+        <li><a asp-controller="App" asp-action="About">About</a></li>
+        <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li><a asp-controller="App" asp-action="Trips">My Trips</a></li>
+            <li>&nbsp;</li>
+            <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
+        }
+
+    </ul>
+</div>
 
 <div id="wrapper">
-
+    
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-left">
@@ -53,12 +64,15 @@
     <div id="main" class="container-fluid">
         @RenderBody()
     </div>
+
     <div id="footer" class="container-fluid">
         <div class="navbar navbar-inverse navbar-fixed-bottom">
             <h4 class="text-info text-center"> &copy; 2015 The World</h4>
         </div>
     </div>
+
 </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     @RenderSection("scripts", false)

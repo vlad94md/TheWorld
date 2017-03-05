@@ -26,9 +26,8 @@ namespace TheWorld.Models.Context
                     UserName = "samhastings",
                     Email = "sam.hastings@theworld.com"
                 };
-                await _userManager.CreateAsync(user, "Pass0rd");
+                await _userManager.CreateAsync(user, "Passw0rd!");
             }
-
 
             if (!_context.Trips.Any())
             {
@@ -118,10 +117,10 @@ namespace TheWorld.Models.Context
                 };
 
                 _context.Trips.Add(worldTrip);
-                _context.Stops.AddRange(worldTrip.Stops);
-
-                await _context.SaveChangesAsync();
+                _context.Stops.AddRange(worldTrip.Stops);                
             }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TheWorld.Models;
@@ -13,6 +14,7 @@ using TheWorld.ViewModels;
 namespace TheWorld.Controllers.Api
 {
     [Route("api/trips/{tripName}/stops")]
+    [Authorize]
     public class StopsController : Controller
     {
         private IWorldRepository _repository;
@@ -32,7 +34,7 @@ namespace TheWorld.Controllers.Api
         {
             try
             {
-                var trip = _repository.GetTripByName(tripName);
+                var trip = _repository.GetUserTripByName(tripName, User.Identity.Name);
                 var tripStops = trip.Stops.OrderBy(s => s.Order).ToList();
 
                 return Ok(AutoMapper.Mapper.Map<IEnumerable<StopViewModel>>(tripStops));
@@ -52,7 +54,7 @@ namespace TheWorld.Controllers.Api
                 if (ModelState.IsValid)
                 {
                     var newStop = AutoMapper.Mapper.Map<Stop>(stopModel);
-
+                    
                     // Lookup for Geocords
                     var result = await _coordsService.GetCoordsAsync(newStop.Name);
                     if (!result.Success)
@@ -63,7 +65,7 @@ namespace TheWorld.Controllers.Api
                     newStop.Latitude = result.Latitude;
                     newStop.Longitude = result.Longitude;
 
-                    _repository.AddStop(tripName, newStop);
+                    _repository.AddStop(tripName, newStop, User.Identity.Name);
 
                     if (await _repository.SaveChangesAsync())
                     {
