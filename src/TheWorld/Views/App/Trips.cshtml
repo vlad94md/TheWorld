@@ -10,6 +10,8 @@
 <div class="row" ng-app="app-trips">
 
     <div ng-controller="tripsController as vm" class="col-lg-6 col-lg-offset-3">
+        <div class="text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
+        <wait-cursor displayWhen="vm.isBusy"></wait-cursor>
         <table class="table table-responsive table-striped">
             <tr ng-repeat="trip in vm.trips">
                 <td>{{trip.name}}</td>
@@ -21,10 +23,12 @@
         <form novalidate name="newTripForm" ng-submit="vm.addTrip()">
             <div class="form-group">
                 <label>Trip Name</label>
-                <input class="form-control" type="text" id="name" name="name"/>
+                <input class="form-control" type="text" id="name" name="name" ng-model="vm.newTrip.name" required ng-minlength="5"/>
             </div>
             <div class="form-group">
-                <input class="btn btn-success btn-sm" value="Add" type="submit" ng-model="vm.newTrip.name" required ng-minlength="5"/>
+                <input class="btn btn-success btn-sm" value="Add" type="submit" ng-disabled="newTripForm.$invalid"/>
+                <span ng-show="newTripForm.name.$error.required" class="text-warning">Name is required</span>
+                <span ng-show="newTripForm.name.$error.minlength" class="text-warning">Name should be at least 5 chars</span>
             </div>
         </form>
 
@@ -59,6 +63,7 @@
 
 @section scripts{
     <script src="~/lib/angular/angular.js"></script>
+    <script src="~/js/simpleControls.js"></script>
     <script src="~/js/app-trips.js"></script>
     <script src="~/js/tripsController.js"></script>
 }

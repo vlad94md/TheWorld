@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using TheWorld.Models;
 using TheWorld.Models.Context;
 using TheWorld.Services;
@@ -47,9 +48,11 @@ namespace TheWorld
             services.AddLogging();
             services.AddSingleton(configRoot);
             services.AddMvc(config =>
-            {
+            {               
                 //config.Filters.Add(new RequireHttpsAttribute()); //For prod version 
-            });
+            })
+            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
             services.AddIdentity<WorldUser, IdentityRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;
