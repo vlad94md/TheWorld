@@ -21,7 +21,8 @@
     },
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "AutoMapper": "4.2.1",
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0"
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
+    "AngularJS.Intellisense": "1.0.3"
   },
 
   "tools": {
