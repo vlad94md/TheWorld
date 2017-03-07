@@ -37,16 +37,8 @@ namespace TheWorld.Controllers.Web
         [Authorize]
         public IActionResult Trips()
         {
-            try
-            {
-                var data = _repos.GetAllTrips();
-                return View(data);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Failed to get all trips at Index page: {ex.Message}");
-                return Redirect("/error");
-            }
+
+            return View();
         }
 
         public IActionResult Contact()

@@ -14,7 +14,7 @@
 
         $http.get("/api/trips")
             .then(function (response) {
-                // sucess
+                // sucсess
                 angular.copy(response.data, vm.trips);
             }, function(error) {
                 // failure
@@ -27,10 +27,9 @@
 
         vm.addTrip = function () {
             vm.isBusy = true;
-            debugger;
             $http.post("/api/trips", vm.newTrip)
                 .then(function (response) {
-                    // sucess
+                    // suceсss
                     vm.trips.push(response.data);
                     vm.newTrip.name = "";
                 }, function (error) {
@@ -40,9 +39,6 @@
                 .finally(function() {
                     vm.isBusy = false;
                 });
-
-            vm.trips.push({ name: vm.newTrip.name, created: new Date() });
-            vm.newTrip.name = "";
         }
     };
 })();
