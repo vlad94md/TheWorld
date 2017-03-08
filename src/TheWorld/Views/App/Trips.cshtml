@@ -9,12 +9,15 @@
 
 <div class="row" ng-app="app-trips">
     <div ng-view></div>
-
 </div>
 
 @section scripts{
+    <script src="~/lib/underscore/underscore-min.js"></script>
     <script src="~/lib/angular/angular.js"></script>
     <script src="~/lib/angular-route/angular-route.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEMdiUpH1vuBtwS1WAetNnKQaz3h5b82o"></script>
+    <script src="~/lib/gmaps/gmaps.min.js"></script>
+    <script src="~/lib/travelmap/travelmap.min.js"></script>
     <script src="~/js/simpleControls.js"></script>
     <script src="~/js/app-trips.js"></script>
     <script src="~/js/tripsController.js"></script>
