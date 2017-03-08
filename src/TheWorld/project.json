@@ -30,8 +30,9 @@
     "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.0.0-preview2-final",
       "imports": [
-        "portable-net45+win8+dnxcore50", "portable-net45+win8"
-      ]      
+        "portable-net45+win8+dnxcore50",
+        "portable-net45+win8"
+      ]
     }
   },
 
@@ -58,12 +59,16 @@
   "publishOptions": {
     "include": [
       "wwwroot",
-      "web.config"
+      "web.config",
+      "Views",
+      "config.json"
     ]
   },
 
   "scripts": {
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-  },
+  "prepublish": [ "npm install", "bower install" ],
+  "prepare": "gulp minify",
+  "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+},
   "userSecretsId": "aspnet-TheWorld-20160911050726"
 }
